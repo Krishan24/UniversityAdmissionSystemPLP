@@ -42,7 +42,6 @@ public class Schedule {
 
 	public Schedule() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Schedule(int id, String programName, String location, LocalDate startdate, LocalDate enddate,
