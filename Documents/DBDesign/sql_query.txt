@@ -1,0 +1,18 @@
+create table program(
+  id int AUTO_INCREMENT PRIMARY KEY,
+  name varchar(10),
+  description varchar(100),
+  eligibility varchar(100),
+  duration int,
+  certificate varchar(50)
+);
+
+insert into program 
+values(
+	1,
+    "B.E.",
+    "This course will lead you to excellence in applied science and technology.",
+    "Applicant should be 12th+ and secured valid marks in JEE India",
+    48,
+    "Bachelor of Engineering"
+	);
