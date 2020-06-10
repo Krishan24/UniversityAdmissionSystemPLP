@@ -1,24 +1,17 @@
 package com.cg.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-@Entity
 public class Participant {
 	
 	@NotNull
-	@Size(min = 2, max = 6)
 	private String rollNo;
 
 	@Email
 	private String emailId;
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int applicationId;
 	@NotNull
 	private String scheduledProgramId;
@@ -73,5 +66,5 @@ public class Participant {
 				+ ", scheduledProgramId=" + scheduledProgramId + "]";
 	}
 
-	
+
 }
