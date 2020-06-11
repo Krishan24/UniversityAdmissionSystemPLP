@@ -18,7 +18,6 @@ public class Participant {
 	@Email
 	private String emailId;
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int applicationId;
 	@NotNull
 	private String scheduledProgramId;
