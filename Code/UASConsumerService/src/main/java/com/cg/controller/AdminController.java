@@ -16,12 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cg.entity.Application;
 import com.cg.entity.Program;
 import com.cg.entity.Schedule;
 import com.cg.service.AdminService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-
-import io.swagger.annotations.Api;
 
 @RestController
 @RequestMapping("/admin")
@@ -30,35 +29,41 @@ public class AdminController {
 	Logger logger = LoggerFactory.getLogger(AdminController.class);
 
 	@Autowired
-	private AdminService service;
+	private AdminService adminService;
+	
 
+	@GetMapping("getAppsBySchedId")
+	public ResponseEntity<List<Application>> getReportOfApps(@PathVariable int schedId){
+		return adminService.getAllApplicationsReportBySchedId(schedId);
+	}
+	
 	@GetMapping("/getallprograms")
 	public ResponseEntity<List<Program>> getAllPrograms() {
-		return service.getAllProgramsOffered();
+		return adminService.getAllProgramsOffered();
 	}
 
 	@GetMapping("/getprogrambyid/{id}")
 	@HystrixCommand(fallbackMethod = "ProgramNotFoundByIdErrorHandler")
 	public ResponseEntity<Program> getProgramById(@PathVariable int id) {
-		return service.getProgramById(id);
+		return adminService.getProgramById(id);
 	}
 
 	@PostMapping("/addprogram")
 	@HystrixCommand(fallbackMethod = "ProgramAdditionErrorHandler")
 	public ResponseEntity<Program> addNewProgram(@RequestBody Program program) {
-		return service.addProgram(program);
+		return adminService.addProgram(program);
 	}
 
 	@DeleteMapping("/deleteprogrambyid/{id}")
 	@HystrixCommand(fallbackMethod = "ProgramNotFoundByIdErrorHandler")
 	public ResponseEntity<Program> deleteProgramById(@PathVariable int id) {
-		return service.deleteProgramById(id);
+		return adminService.deleteProgramById(id);
 	}
 
 	@PutMapping("/updateprogram")
 	@HystrixCommand(fallbackMethod = "ProgramUpdateErrorHandler")
 	public ResponseEntity<Program> updateProgram(@RequestBody Program program) {
-		return service.updateProgram(program);
+		return adminService.updateProgram(program);
 	}
 
 	// add program error handler
@@ -83,31 +88,31 @@ public class AdminController {
 
 	@GetMapping("/getallschedules")
 	public ResponseEntity<List<Schedule>> getAllSchedules() {
-		return service.getAllScheduledPrograms();
+		return adminService.getAllScheduledPrograms();
 	}
 
 	@GetMapping("/getschedulebyid/{id}")
 	@HystrixCommand(fallbackMethod = "ScheduleNotFoundByIdErrorHandler")
 	public ResponseEntity<Schedule> getScheduleById(@PathVariable int id) {
-		return service.getScheduledProgramById(id);
+		return adminService.getScheduledProgramById(id);
 	}
 
 	@PostMapping("/addschedule")
 	@HystrixCommand(fallbackMethod = "ScheduleAdditionErrorHandler")
 	public ResponseEntity<Schedule> addNewSchedule(@RequestBody Schedule schedule) {
-		return service.addScheduledProgram(schedule);
+		return adminService.addScheduledProgram(schedule);
 	}
 
 	@DeleteMapping("/deleteschedulebyid/{id}")
 	@HystrixCommand(fallbackMethod = "ScheduleNotFoundByIdErrorHandler")
 	public ResponseEntity<Schedule> deleteScheduleById(@PathVariable int id) {
-		return service.deleteScheduledProgramsById(id);
+		return adminService.deleteScheduledProgramsById(id);
 	}
 
 	@PutMapping("/updateschedule")
 	@HystrixCommand(fallbackMethod = "ScheduleUpdateErrorHandler")
 	public ResponseEntity<Schedule> updateSchedule(@RequestBody Schedule schedule) {
-		return service.updateScheduledProgram(schedule);
+		return adminService.updateScheduledProgram(schedule);
 	}
 
 	// add schedule error handler

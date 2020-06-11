@@ -2,6 +2,8 @@ package com.cg.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +28,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 @RequestMapping("/program")
 public class ProgramController {
 
+	//http:localhost:8082/
 	Logger logger = LoggerFactory.getLogger(ProgramController.class);
 
 	@Autowired
@@ -45,8 +48,8 @@ public class ProgramController {
 	}
 
 	@PostMapping("/addprogram")
-	@HystrixCommand(fallbackMethod = "ProgramAdditionErrorHandler")
-	public ResponseEntity<Program> addProgram(@RequestBody Program program) throws ProgramAlreadyExistsException {
+//	@HystrixCommand(fallbackMethod = "ProgramAdditionErrorHandler")
+	public ResponseEntity<Program> addProgram(@Valid @RequestBody Program program) throws ProgramAlreadyExistsException {
 		Program p = service.addProgram(program);
 		logger.info("program added to database");
 		return ResponseEntity.status(HttpStatus.SC_OK).body(p);

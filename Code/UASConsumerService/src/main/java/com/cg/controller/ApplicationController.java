@@ -46,13 +46,13 @@ public class ApplicationController {
 		return service.addApplication(application);
 	}
 
-	@DeleteMapping("/deleteapplicationbyid/{id}")
+	@DeleteMapping("/mac/deleteapplicationbyid/{id}")
 	@HystrixCommand(fallbackMethod = "ApplicationNotFoundByIdErrorHandler")
 	public ResponseEntity<Application> deleteApplicationById(@PathVariable int id) {
 		return service.deleteApplicationById(id);
 	}
 
-	@PutMapping("/updateapplication")
+	@PutMapping("/mac/updateapplication")
 	@HystrixCommand(fallbackMethod = "ApplicationUpdateErrorHandler")
 	public ResponseEntity<Application> updateApplication(@RequestBody Application application) {
 		return service.updateApplication(application);

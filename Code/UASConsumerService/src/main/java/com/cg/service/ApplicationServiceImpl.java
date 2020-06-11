@@ -37,6 +37,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 			return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 		}
 	}
+	
 
 	@Override
 	public ResponseEntity<Application> getApplicationById(int id) {

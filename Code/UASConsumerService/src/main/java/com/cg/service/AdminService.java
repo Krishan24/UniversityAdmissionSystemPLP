@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import com.cg.entity.Application;
 import com.cg.entity.Program;
 import com.cg.entity.Schedule;
 
@@ -28,5 +29,7 @@ public interface AdminService {
 	public ResponseEntity<Schedule> updateScheduledProgram(Schedule schedule);
 
 	public ResponseEntity<Schedule> deleteScheduledProgramsById(int id);
+
+	public ResponseEntity<List<Application>> getAllApplicationsReportBySchedId(int schedId);
 
 }

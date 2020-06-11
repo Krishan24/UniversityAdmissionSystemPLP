@@ -3,6 +3,7 @@ package com.cg.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.cg.entity.Application;
 import com.cg.entity.Program;
 import com.cg.entity.Schedule;
 
@@ -29,7 +31,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public ResponseEntity<List<Program>> getAllProgramsOffered() {
-		String url = "http://program-service:8082/program/getall";
+		String url = "http://program-service/program/getall";
 		List<Program> result = temp.getForObject(url, List.class);
 		logger.info(result.toString());
 		if (result.size() > 0) {
@@ -41,14 +43,14 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public ResponseEntity<Program> getProgramById(int id) {
-		String url = "http://program-service:8082/program/getbyid/" + id;
+		String url = "http://program-service/program/getbyid/" + id;
 		logger.info(temp.getForEntity(url, Program.class).toString());
 		return temp.getForEntity(url, Program.class);
 	}
 
 	@Override
 	public ResponseEntity<Program> addProgram(Program program) {
-		String url = "http://program-service:8082/program/addprogram";
+		String url = "http://program-service/program/addprogram";
 		ResponseEntity<Program> response = temp.postForEntity(url, program, Program.class);
 		System.out.println(response);
 		return response;
@@ -56,7 +58,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public ResponseEntity<Program> updateProgram(Program program) {
-		String url = "http://program-service:8082/program/updateprogram";
+		String url = "http://program-service/program/updateprogram";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<Program> httpEntity = new HttpEntity<Program>(program, headers);
@@ -68,7 +70,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public ResponseEntity<Program> deleteProgramById(int id) {
-		String url = "http://program-service:8082/program/delete/id/" + id;
+		String url = "http://program-service/program/delete/id/" + id;
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		Map<String, Integer> params = new HashMap<String, Integer>();
@@ -80,7 +82,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public ResponseEntity<List<Schedule>> getAllScheduledPrograms() {
-		String url = "http://scheduled-program-service:8083/schedule/getall";
+		String url = "http://scheduled-program-service/schedule/getall";
 		List<Schedule> result = temp.getForObject(url, List.class);
 		logger.info(result.toString());
 		if (result.size() > 0) {
@@ -92,14 +94,14 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public ResponseEntity<Schedule> getScheduledProgramById(int id) {
-		String url = "http://scheduled-program-service:8083/schedule/getbyid/" + id;
+		String url = "http://scheduled-program-service/schedule/getbyid/" + id;
 		logger.info(temp.getForEntity(url, Schedule.class).toString());
 		return temp.getForEntity(url, Schedule.class);
 	}
 
 	@Override
 	public ResponseEntity<Schedule> addScheduledProgram(Schedule schedule) {
-		String url = "http://scheduled-program-service:8083/schedule/addschedule";
+		String url = "http://scheduled-program-service/schedule/addschedule";
 		ResponseEntity<Schedule> response = temp.postForEntity(url, schedule, Schedule.class);
 		System.out.println(response);
 		return response;
@@ -107,7 +109,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public ResponseEntity<Schedule> updateScheduledProgram(Schedule schedule) {
-		String url = "http://scheduled-program-service:8083/schedule/updateschedule";
+		String url = "http://scheduled-program-service/schedule/updateschedule";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<Schedule> httpEntity = new HttpEntity<Schedule>(schedule, headers);
@@ -118,7 +120,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public ResponseEntity<Schedule> deleteScheduledProgramsById(int id) {
-		String url = "http://scheduled-program-service:8083/schedule/delete/id/" + id;
+		String url = "http://scheduled-program-service/schedule/delete/id/" + id;
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		Map<String, Integer> params = new HashMap<String, Integer>();
@@ -126,6 +128,20 @@ public class AdminServiceImpl implements AdminService {
 		ResponseEntity<Schedule> responseEntity = temp.exchange(url, HttpMethod.DELETE, null, Schedule.class);
 		System.out.println(responseEntity);
 		return responseEntity;
+	}
+
+	@Override
+	public ResponseEntity<List<Application>> getAllApplicationsReportBySchedId(int schedId) {
+		String url = "http://application-service/application/getall";
+		List<Application> result = temp.getForObject(url, List.class);
+		result = result.stream().filter((a) -> Integer.parseInt(a.getScheduledProgramId()) == schedId)
+				.collect(Collectors.toList());
+		logger.info(result.toString());
+		if (result.size() > 0) {
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+		}
 	}
 
 }
