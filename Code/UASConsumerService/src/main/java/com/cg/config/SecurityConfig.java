@@ -25,14 +25,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-		.antMatchers("/schedule/get**/**").permitAll()
-		.antMatchers("/**").hasAnyRole("ADMIN")
-				.and().formLogin();
+		http.csrf().disable().authorizeRequests()
+				.antMatchers("/admin/getallprograms").permitAll()
+				.antMatchers("/admin/getallschedules").permitAll()
+				.antMatchers("/application/getapplicationbyid/**").permitAll()
+				.antMatchers("/mac/getallapplicants").permitAll()
+				.antMatchers("/admin/**").hasAnyRole("ADMIN")
+				.antMatchers("/mac/**").hasAnyRole("MAC")
+				.antMatchers("/application/**").hasAnyRole("MAC")
+				.anyRequest().authenticated().and().formLogin();
 	}
 
-	
-	
 	@SuppressWarnings("deprecation")
 	@Bean
 	public PasswordEncoder getPasswordEncoder() {
