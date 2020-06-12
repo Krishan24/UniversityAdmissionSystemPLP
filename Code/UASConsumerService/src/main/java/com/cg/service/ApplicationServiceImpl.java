@@ -28,7 +28,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	@Override
 	public ResponseEntity<List<Application>> getAllApplications() {
-		String url = "http://application-service:8081/application/getall";
+		String url = "http://application-service/application/getall";
 		List<Application> result = temp.getForObject(url, List.class);
 		logger.info(result.toString());
 		if (result.size() > 0) {
@@ -41,14 +41,14 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	@Override
 	public ResponseEntity<Application> getApplicationById(int id) {
-		String url = "http://application-service:8081/application/getbyid/" + id;
+		String url = "http://application-service/application/getbyid/" + id;
 		logger.info(temp.getForEntity(url, Application.class).toString());
 		return temp.getForEntity(url, Application.class);
 	}
 
 	@Override
 	public ResponseEntity<Application> addApplication(Application application) {
-		String url = "http://application-service:8081/application/addapplication";
+		String url = "http://application-service/application/addapplication";
 		ResponseEntity<Application> response = temp.postForEntity(url, application, Application.class);
 		System.out.println(response);
 		return response;
@@ -56,7 +56,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	@Override
 	public ResponseEntity<Application> updateApplication(Application application) {
-		String url = "http://application-service:8081/application/updateapplication";
+		String url = "http://application-service/application/updateapplication";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<Application> httpEntity = new HttpEntity<Application>(application, headers);
@@ -67,7 +67,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	@Override
 	public ResponseEntity<Application> deleteApplicationById(int id) {
-		String url = "http://application-service:8081/application/delete/id/" + id;
+		String url = "http://application-service/application/delete/id/" + id;
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		Map<String, Integer> params = new HashMap<String, Integer>();
