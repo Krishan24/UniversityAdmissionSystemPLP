@@ -62,7 +62,7 @@ public class UasConsumerApplicationServiceApplicationTests {
 	}
 
 	@Test
-	public void testAdminForGetApplicationById_Success() {
+	public void testApplicationForGetApplicationById_Success() {
 		int id = 101;
 		a = new Application(101, "Siddharth", LocalDate.of(1997, 03, 21), "B.Tech", 50, "To be a Developer",
 				"siddharth1234@gmail.com", "A101", "Pending", LocalDate.of(2020, 06, 16));
