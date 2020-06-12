@@ -30,6 +30,7 @@ public class MacController {
 	@Autowired
 	private MacServiceImpl macService;
 	
+	//http:localhost:8086/mac/getallparticipants
 	@GetMapping("/getallparticipants")
 	public ResponseEntity<List<Participant>> getAllParticipants()
 	{
@@ -55,7 +56,7 @@ public class MacController {
 	{
 		return macService.addParticipant(participant);
 	}
-	@PutMapping("/updateparticipant/{id}")
+	@PutMapping("/updateparticipant")
 	@HystrixCommand(fallbackMethod = "participantUpdateErrorHandler")
 	public ResponseEntity<Participant> updateParticipantById(@PathVariable("id") int id, @RequestBody Participant participant)
 	{

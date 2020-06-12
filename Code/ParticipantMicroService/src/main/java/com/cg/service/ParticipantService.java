@@ -14,7 +14,7 @@ public interface ParticipantService {
 	
 	public Participant getParticipantByRollNo(String rollNo) throws ParticipantNotFoundException;
 	
-	public Participant updateParticipantByApplicationId(Participant participant) throws ParticipantNotFoundException;
+	public Participant updateParticipant(Participant participant) throws ParticipantNotFoundException;
 	
 	public Participant addParticipant(Participant newParticipant) throws ParticipantAlreadyExistsException;
 	

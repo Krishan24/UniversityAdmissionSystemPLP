@@ -31,12 +31,15 @@ public class ParticipantController {
 	@Autowired
 	ParticipantServiceImpl participantService;
 	
+	//http://localhost:8089/participant/getallparticipants
 	@GetMapping("/getallparticipants")
 	public List<Participant> getAllParticipants()
 	{
 		List<Participant> participants = participantService.getAllParticipants();
 		return participants;
 	}
+	
+	//http://localhost:8089/participant/getparticipantbyapplicationid/pid
 	
 	@GetMapping("/getparticipantbyapplicationid/{pid}")
 	@HystrixCommand(fallbackMethod = "participantNotFoundErrorHandler")
@@ -46,6 +49,7 @@ public class ParticipantController {
 		return participant;
 	}
 	
+	//http://localhost:8089/participant/getparticipantbyrollno/rollno
 	@GetMapping("/getparticipantbyrollno/{rollno}")
 	@HystrixCommand(fallbackMethod = "participantNotFoundByRollNoErrorHandler")
 	public Participant getParticipantByRollNo(@PathVariable("rollno") String rollNo) throws ParticipantNotFoundException
@@ -54,6 +58,7 @@ public class ParticipantController {
 		return participant;
 	}
 	
+	//http://localhost:8089/participant/addnewparticipant
 	@PostMapping("/addnewparticipant")
 	@HystrixCommand(fallbackMethod = "participantAdditionErrorHandler")
 	public ResponseEntity<Participant> addNewParticipant(@RequestBody Participant newParticipant) throws ParticipantAlreadyExistsException
@@ -62,15 +67,18 @@ public class ParticipantController {
 		logger.info("added participant to the database");
 		return new ResponseEntity<Participant>(newParticipant, HttpStatus.OK);
 	}
-	@PutMapping("/updateparticipantbyapplicationid/{pid}")
+	
+	//http://localhost:8089/participant/updateparticipant
+	@PutMapping("/updateparticipant")
 	@HystrixCommand(fallbackMethod = "participantUpdateErrorHandler")
-	public ResponseEntity<Participant> updateParticipantByApplicationId(@PathVariable("pid") int pid, @RequestBody Participant participant) throws ParticipantNotFoundException
+	public ResponseEntity<Participant> updateParticipantByApplicationId(@RequestBody Participant participant) throws ParticipantNotFoundException
 	{
-		participantService.updateParticipantByApplicationId(participant);
+		participantService.updateParticipant(participant);
 		logger.info("Updated participant in database.");
 		return new ResponseEntity<Participant>(participant, HttpStatus.OK);
 	}
 	
+	//http://localhost:8089/participant/deleteparticipantbyid/pid
 	@DeleteMapping("/deleteparticipantbyid/{pid}")
 	@HystrixCommand(fallbackMethod = "participantNotFoundDeletionErrorHandler")
 	public ResponseEntity<Participant> deleteParticipantByApplicationId(@PathVariable("pid") int pid) throws ParticipantNotFoundException

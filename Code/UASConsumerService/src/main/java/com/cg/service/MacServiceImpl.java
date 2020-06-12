@@ -30,7 +30,7 @@ public class MacServiceImpl implements MacService {
 	@Override
 	public ResponseEntity<List<Participant>> getAllParticipants() {
 		
-		List<Participant> participants = template.getForObject("http://participant-server/participant/getallparticipants", List.class);
+		List<Participant> participants = template.getForObject("http://participant-service/participant/getallparticipants", List.class);
 		logger.info(participants.toString());
 		if (participants.size() > 0) {
 			return new ResponseEntity<>(participants, HttpStatus.OK);
@@ -42,21 +42,21 @@ public class MacServiceImpl implements MacService {
 	@Override
 	public ResponseEntity<Participant> getParticipantById(int id) {
 		
-		String url = "http://participant-server/participant/getparticipantbyapplicationid/" + id;
+		String url = "http://participant-service/participant/getparticipantbyapplicationid/" + id;
 		logger.info(template.getForEntity(url, Participant.class).toString());
 		return template.getForEntity(url, Participant.class);
 	}
 
 	@Override
 	public ResponseEntity<Participant> getParticipantByRollNo(String rollNo) {
-		String url = "http://participant-server/participant/getparticipantbyrollno/" + rollNo;
+		String url = "http://participant-service/participant/getparticipantbyrollno/" + rollNo;
 		logger.info(template.getForEntity(url, Participant.class).toString());
 		return template.getForEntity(url, Participant.class);
 	}
 
 	@Override
 	public ResponseEntity<Participant> addParticipant(Participant participant) {
-		String url = "http://participant-server/participant/addnewparticipant";
+		String url = "http://participant-service/participant/addnewparticipant";
 		ResponseEntity<Participant> response = template.postForEntity(url, participant, Participant.class);
 		System.out.println(response);
 		return response;
@@ -65,7 +65,7 @@ public class MacServiceImpl implements MacService {
 	@Override
 	public ResponseEntity<Participant> updateParticipant(Participant participant) {
 		
-		String url = "http://participant-server/updateparticipantbyapplicationid/";
+		String url = "http://participant-service/updateparticipant/";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<Participant> httpEntity = new HttpEntity<Participant>(participant, headers);
@@ -76,7 +76,7 @@ public class MacServiceImpl implements MacService {
 
 	@Override
 	public ResponseEntity<Participant> deleteParticipantById(int id) {
-		String url = "http://participant-server/participant/deleteparticipantbyid/"+id;
+		String url = "http://participant-service/participant/deleteparticipantbyid/"+id;
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		Map<String, Integer> params = new HashMap<String, Integer>();

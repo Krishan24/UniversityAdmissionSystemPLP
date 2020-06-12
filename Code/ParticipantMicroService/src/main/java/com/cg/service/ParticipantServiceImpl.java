@@ -41,7 +41,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 			throw new ParticipantNotFoundException();
 	}
 	
-	public Participant updateParticipantByApplicationId(Participant participant) throws ParticipantNotFoundException
+	public Participant updateParticipant(Participant participant) throws ParticipantNotFoundException
 	{
 		if(participantRepository.existsById(participant.getApplicationId()))
 			return participantRepository.save(participant);
