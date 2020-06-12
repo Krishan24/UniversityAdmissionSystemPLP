@@ -29,7 +29,7 @@ public class ApplicationController {
 	@Autowired
 	private ApplicationService service;
 
-	@GetMapping("/getallapplications")
+	@GetMapping("/getall")
 	public ResponseEntity<List<Application>> getAllApplications() {
 		return service.getAllApplications();
 	}

@@ -6,8 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
@@ -26,6 +29,8 @@ public class Application {
 	@Size(min = 2, message = "Atleast 2 characters required")
 	private String highestQualification;
 	@NotNull
+	@Min(value = 35, message = "Marks Obtained should not be less than 35")
+    @Max(value = 100, message = "Marks Obtained should not be greater than 100")
 	private int marksObtained;
 	@NotNull
 	private String goals;
@@ -38,6 +43,17 @@ public class Application {
 	@Future
 	private LocalDate dateOfInterview;
 	
+	@AssertTrue(message = "date of birth should be atleast 15 years before")
+	private boolean isValid() {
+		if (dateOfBirth == null)
+			return false;
+		if (dateOfBirth.isBefore(LocalDate.of(2005, 02, 01))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public Application() {
 		
 	}

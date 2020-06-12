@@ -2,23 +2,24 @@ package com.cg.entity;
 
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
-
 public class Application {
 
 	private Integer applicationId;
 	@NotNull
-	@Size(min = 8, message = "Name should be of atleast 8 characters")
 	private String fullName;
 	@Past
 	private LocalDate dateOfBirth;
 	@NotNull
-	@Size(min = 2, message = "Atleast 2 characters required")
 	private String highestQualification;
 	@NotNull
 	private int marksObtained;
