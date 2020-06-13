@@ -32,6 +32,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	@Override
 	public Application addApplication(Application application) throws ApplicationAlreadyExistsException {
+		logger.info(application.toString());
 		if (repo.existsById(application.getApplicationId()))
 			throw new ApplicationAlreadyExistsException();
 		else
