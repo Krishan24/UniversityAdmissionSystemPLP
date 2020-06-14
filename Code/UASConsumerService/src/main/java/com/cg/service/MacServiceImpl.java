@@ -65,7 +65,7 @@ public class MacServiceImpl implements MacService {
 	@Override
 	public ResponseEntity<Participant> updateParticipant(Participant participant) {
 		
-		String url = "http://participant-service/updateparticipant/";
+		String url = "http://participant-service/participant/updateparticipant";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<Participant> httpEntity = new HttpEntity<Participant>(participant, headers);

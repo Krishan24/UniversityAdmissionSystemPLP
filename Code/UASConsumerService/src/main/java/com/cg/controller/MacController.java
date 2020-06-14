@@ -39,7 +39,7 @@ public class MacController {
 	
 	@GetMapping("/getparticipantbyid/{id}")
 	@HystrixCommand(fallbackMethod = "participantNotFoundErrorHandler")
-	public ResponseEntity<Participant> getParticipantByApplicationId(@PathVariable("id") int id)
+	public ResponseEntity<Participant> getParticipantByApplicationId(@PathVariable int id)
 	{
 		return macService.getParticipantById(id);
 	}
@@ -58,14 +58,14 @@ public class MacController {
 	}
 	@PutMapping("/updateparticipant")
 	@HystrixCommand(fallbackMethod = "participantUpdateErrorHandler")
-	public ResponseEntity<Participant> updateParticipantById(@PathVariable("id") int id, @RequestBody Participant participant)
+	public ResponseEntity<Participant> updateParticipantById(@RequestBody Participant participant)
 	{
 		return macService.updateParticipant(participant);
 	}
 
 	@DeleteMapping("/deleteparticipantById/{id}")
 	@HystrixCommand(fallbackMethod = "participantNotFoundDeletionErrorHandler")
-	public ResponseEntity<Participant> deleteParticipantById(@PathVariable("id") int id)
+	public ResponseEntity<Participant> deleteParticipantById(@PathVariable int id)
 	{
 		return macService.deleteParticipantById(id);
 	}
@@ -76,10 +76,10 @@ public class MacController {
 	}
 	
 	// participant not found error handler
-	public Participant participantNotFoundErrorHandler(int pid)
+	public ResponseEntity<Participant> participantNotFoundErrorHandler(int pid)
 	{
 		logger.info("Participant with this id is not present in database :"+pid);
-		return new Participant("0",null,0,"00");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
 	
 	//participant deletion error handler
@@ -90,10 +90,10 @@ public class MacController {
 	}
 	
 	//participant not found error handler
-	public Participant participantNotFoundByRollNoErrorHandler(String rollNo)
+	public ResponseEntity<Participant> participantNotFoundByRollNoErrorHandler(String rollNo)
 	{
 		logger.info("Participant with this roll no. is not present : "+rollNo);
-		return new Participant("0",null,0,"00");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
 	
 	//addition error handler
